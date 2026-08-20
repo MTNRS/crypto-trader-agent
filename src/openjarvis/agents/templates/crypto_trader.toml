@@ -1,0 +1,42 @@
+[template]
+id = "crypto_trader"
+name = "Crypto Trader"
+description = "Monitors wallet USDC profit and auto-sweeps gains to a configured Binance address."
+icon = "$"
+agent_type = "crypto_trader"
+schedule_type = "interval"
+schedule_value = "120"
+tools = []
+max_turns = 1
+temperature = 0.0
+monitor_when_idle_enabled = true
+monitor_idle_interval_sec = 45
+learning_enabled = true
+learning_schedule = "every_8_ticks"
+ai_ollama_host = "http://192.168.1.9:11434"
+ai_ollama_model = "agent-default:latest"
+live_execution_backend = "wallet"
+live_binance_test_order = true
+live_learning_enabled = true
+live_learning_hold_streak = 8
+live_learning_step_pct = "0.0002"
+live_learning_min_momentum_pct = "0.0008"
+live_learning_max_momentum_pct = "0.006"
+live_min_actions_per_hour = 2
+live_activity_boost_step_pct = "0.00025"
+system_prompt_template = """You are a crypto trader operations agent.
+
+Goal:
+- Track realized USDC profits in the configured wallet.
+- Keep principal + reserve untouched.
+- Sweep only excess profit to the configured Binance USDC address.
+
+Safety:
+- Never bypass wallet safety checks.
+- Never send if autosweep is disabled.
+- Respect cooldown and daily limits.
+- Report tx hash and sent amount when a sweep succeeds.
+
+Instruction:
+{instruction}
+"""
